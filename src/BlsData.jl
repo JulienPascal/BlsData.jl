@@ -8,9 +8,9 @@ import JSON
 import HttpCommon
 using Compat
 
-export 
+export
     # Bls type
-    Bls, get_api_url, set_api_url!, get_api_key, get_api_version, requests_made, 
+    Bls, get_api_url, set_api_url!, get_api_key, get_api_version, requests_made,
         requests_remaining,
     # BlsSeries type
     BlsSeries,
@@ -97,7 +97,7 @@ function Bls(key="")
                 key = key[1:API_KEY_LENGTH]
                 warn("Key too long. First ", API_KEY_LENGTH, " chars used.")
             end
-            if !isxdigit(key)
+            if all(isxdigit, key) == false
                 error("Invalid BLS API key: ", key)
             end
         catch err
@@ -154,7 +154,7 @@ end
 function Base.show(io::IO, s::BlsSeries)
     @printf io "BlsSeries\n"
     @printf io "\tid: %s\n" s.id
-    @printf io "\tseries: %dx%d DataFrame with columns %s\n" size(s.data)...  names(s.data) 
+    @printf io "\tseries: %dx%d DataFrame with columns %s\n" size(s.data)...  names(s.data)
     @printf io "\tcatalog: %s\n" s.catalog
 end
 
@@ -169,7 +169,7 @@ function Base.isempty(s::BlsSeries)
 end
 
 # deprecated
-export 
+export
     api_url, api_key, api_version,
     id, series, catalog
 @deprecate api_url(b::Bls) get_api_url(b)
